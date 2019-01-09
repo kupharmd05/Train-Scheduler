@@ -23,7 +23,7 @@ $(document).ready(function () {
   console.log(trainName, destination, firstTrain, frequency);
 
 
-  $("submit").on("click", function (event) {
+  $("#submit").on("click", function (event) {
     event.preventDefault();
 
     console.log("hi")
@@ -31,7 +31,7 @@ $(document).ready(function () {
     trainName = $("#trainName").val().trim();
     destination = $("#destination").val().trim();
     firstTrain = $("#time").val().trim();
-    frequency = $("#frequency").val().trim();
+    frequency = parseInt($("#frequency").val().trim());
 
     // var newTrain = {
     //   name: trainName,
@@ -53,22 +53,20 @@ $(document).ready(function () {
     $("#time").val("");
     $("#frequency").val("");
 
-    // console.log(trainName);
-    // console.log(newTrain.destination);
-    // console.log(newTrain.firstTrain);
-    // console.log(newTrain.frequency);
 
- 
   });
 
   database.ref().on("child_added", function (snapshot) {
-    var snapval = snapshot.val();
+    var sv= snapshot.val();
 
-    console.log(snapval.name);
-    console.log(snapval.destination);
-    console.log(snapval.firstTrain);
-    console.log(snapval.frequency)
-
+    console.log(sv);
+    console.log(sv.trainName);
+    console.log(sv.destination);
+    console.log(sv.firstTrain);
+    console.log(sv.frequency)
+   
+  $("#trainData")
+  .append("<tr><td>" + sv.trainName + "</td><td>" + sv.destination + "</td><td>" + (sv.freqency) + "</td>")
 
   })
 });
