@@ -32,7 +32,7 @@ $(document).ready(function () {
     trainName = $("#trainName").val().trim();
     destination = $("#destination").val().trim();
     firstTrain = $("#time").val().trim();
-    frequency = ($("#frequency").val().trim());
+    frequency = parseInt($("#frequency").val().trim());
 
 
 
@@ -61,6 +61,8 @@ $(document).ready(function () {
     console.log(sv.destination);
     console.log(sv.firstTrain);
     console.log(sv.frequency)
+
+    
 
     tFrequency = sv.frequency
 
@@ -91,7 +93,7 @@ $(document).ready(function () {
 
    
   $("#trainData")
-  .append("<tr><td>" + sv.trainName + "</td><td>" + sv.destination + "</td><td>" + sv.freqency + "</td><td>" + nextArrival + "</td><td>" + tMinutesTillTrain + "</td>")
+  .append("<tr><td>" + sv.trainName + "</td><td>" + sv.destination + "</td><td>" + sv.frequency + "</td><td>" + nextArrival + "</td><td>" + tMinutesTillTrain + "</td>")
 
 
 
