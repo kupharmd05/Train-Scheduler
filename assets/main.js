@@ -20,9 +20,10 @@ $(document).ready(function () {
   var firstTrain = "";
   var frequency = "";
 
-  console.log(trainName, destination, firstTrain, frequency);
+  // Testing initial variable setup
+  // console.log(trainName, destination, firstTrain, frequency);
 
-
+// On click of submit button, capture input values, push to firebase, and reset values to empty after push
   $("#submit").on("click", function (event) {
     event.preventDefault();
 
@@ -31,14 +32,9 @@ $(document).ready(function () {
     trainName = $("#trainName").val().trim();
     destination = $("#destination").val().trim();
     firstTrain = $("#time").val().trim();
-    frequency = parseInt($("#frequency").val().trim());
+    frequency = ($("#frequency").val().trim());
 
-    // var newTrain = {
-    //   name: trainName,
-    //   destination: destination,
-    //   firstTrain: firstTrain,
-    //   frequency: frequency
-    // }
+
 
     database.ref().push({
       trainName: trainName,
@@ -56,6 +52,7 @@ $(document).ready(function () {
 
   });
 
+  // Firebase data added to table and handle time functions
   database.ref().on("child_added", function (snapshot) {
     var sv= snapshot.val();
 
@@ -64,9 +61,41 @@ $(document).ready(function () {
     console.log(sv.destination);
     console.log(sv.firstTrain);
     console.log(sv.frequency)
+
+    tFrequency = sv.frequency
+
+    firstTrain = sv.firstTrain
+
+    console.log(tFrequency, firstTrain);
+
+    var firstTimeConverted = moment(firstTrain, "HH:mm").subtract(1, "years");
+    console.log(firstTimeConverted);
+
+    var currentTime = moment();
+    console.log("Current Time " + moment(currentTime).format("HH:mm"));
+
+    var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+    console.log(diffTime);
+
+    var tRemainder = diffTime % tFrequency;
+    console.log(tRemainder);
+
+    var tMinutesTillTrain = tFrequency - tRemainder;
+    console.log("Minutes until next train " + tMinutesTillTrain);
+    
+
+    var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+    console.log("Arrival Time " + moment(nextTrain).format("LT"));
+    var nextArrival = moment(nextTrain).format("LT");
+
+
    
   $("#trainData")
-  .append("<tr><td>" + sv.trainName + "</td><td>" + sv.destination + "</td><td>" + (sv.freqency) + "</td>")
+  .append("<tr><td>" + sv.trainName + "</td><td>" + sv.destination + "</td><td>" + sv.freqency + "</td><td>" + nextArrival + "</td><td>" + tMinutesTillTrain + "</td>")
+
+
 
   })
+
+
 });
